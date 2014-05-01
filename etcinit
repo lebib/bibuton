@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+
+START=94
+
+start() {
+    echo start
+    bibuton > /dev/null 2>&1 &
+}
+
+stop() {
+    echo stop
+    echo "2" > /sys/class/gpio/unexport
+    echo "3" > /sys/class/gpio/unexport
+    echo "4" > /sys/class/gpio/unexport
+    killall -9 bibuton
+}

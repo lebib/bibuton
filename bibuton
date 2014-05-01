@@ -21,7 +21,7 @@ cligno () {
         echo "0" > /sys/class/gpio/gpio2/value
         sleep 1
     done
-} 
+}
 
 name=""
 pass=""
@@ -30,11 +30,11 @@ while true; do
     # execute a l'appuie du bouton
     if [ $(cat /sys/class/gpio/gpio4/value) -eq 0 ]; then
     # fonction cligno en background
-        cligno & 
+        cligno &
         # Se connecter et enregistrer la page
         curl -c /tmp/cookies -d "name=$name&pass=$pass&form_id=user_login&op=Se+connecter" http://lebib.org/user -s
         curl -b /tmp/cookies http://lebib.org --output /tmp/bib.html -s
-        # recuperation du token et etat 
+        # recuperation du token et etat
         token=$(cat /tmp/bib.html | grep -m 1 form_token | awk '{print $4}' | awk -F '\"' '{print $2}')
         id=$(cat /tmp/bib.html | grep -m 1 form_build_id | awk '{print $29}' | awk -F '\"' '{print $2}')
         state=$(cat /tmp/bib.html | grep -m 1 bibopen | awk '{print $9}' | awk -F '\"' '{print $2}')
