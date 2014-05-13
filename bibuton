@@ -50,9 +50,11 @@ while true; do
         kill %+
         # Si le bib est fermé allumer led orange, si ouvert allumer led blanche
         if [ $state -eq 1 ]; then
+            echo -e 'USER bibuton 0 bibuton : bibuton\nNICK bibuton\nJOIN #discutoire\nTOPIC #discutoire :Le bib est ouvert \nQUIT' | nc irc.lebib.org 6667
             echo "1" > /sys/class/gpio/gpio3/value
             echo "0" > /sys/class/gpio/gpio2/value
         else
+            echo -e 'USER bibuton 0 bibuton : bibuton\nNICK bibuton\nJOIN #discutoire\nTOPIC #discutoire :Le bib est fermé \nQUIT' | nc irc.lebib.org 6667
             echo "1" > /sys/class/gpio/gpio2/value
             echo "0" > /sys/class/gpio/gpio3/value
         fi
