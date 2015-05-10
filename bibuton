@@ -32,8 +32,8 @@ while true; do
     # fonction cligno en background
         cligno &
         # Se connecter et enregistrer la page
-        curl -c /tmp/cookies -d "name=$name&pass=$pass&form_id=user_login&op=Se+connecter" http://lebib.org/user -s
-        curl -b /tmp/cookies http://lebib.org --output /tmp/bib.html -s
+        curl -k -c /tmp/cookies -d "name=$name&pass=$pass&form_id=user_login&op=Se+connecter" https://lebib.org/user -s
+        curl -k -b /tmp/cookies https://lebib.org --output /tmp/bib.html -s
         # recuperation du token et etat
         token=$(cat /tmp/bib.html | grep -m 1 form_token | awk '{print $4}' | awk -F '\"' '{print $2}')
         id=$(cat /tmp/bib.html | grep -m 1 form_build_id | awk '{print $29}' | awk -F '\"' '{print $2}')
@@ -45,7 +45,7 @@ while true; do
             state=0
         fi
         # changer l'etat
-        curl -b /tmp/cookies -d "op=Changer&form_build_id=$id&form_token=$token&form_id=bibstate_toggle_form" http://lebib.org -s
+        curl -k -b /tmp/cookies -d "op=Changer&form_build_id=$id&form_token=$token&form_id=bibstate_toggle_form" https://lebib.org -s
         # kill le dernier jobs
         kill %+
         # Si le bib est fermé allumer led orange, si ouvert allumer led blanche
